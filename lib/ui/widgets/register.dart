@@ -6,9 +6,9 @@ class Register extends StatelessWidget {
   final TextEditingController emailAddressController;
 
   Register({
-    @required this.mobileNumbercontroller,
-    @required this.emailAddressController,
-    @required this.nameController,
+    required this.mobileNumbercontroller,
+    required this.emailAddressController,
+    required this.nameController,
   });
 
   @override
@@ -44,9 +44,9 @@ class EmailAddressField extends StatelessWidget {
     );
   }
 
-  String validateEmail(String value) {
+  String? validateEmail(String? value) {
     final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    if (!emailRegExp.hasMatch(value)) {
+    if (!emailRegExp.hasMatch(value!)) {
       return "Invalid email address";
     } else {
       return null;
@@ -79,8 +79,8 @@ class MobileField extends StatelessWidget {
     );
   }
 
-  String validateMobile(String value) {
-    if (value.length < 8) {
+  String? validateMobile(String? value) {
+    if (value!.length < 8) {
       return 'Number must be more than 8 charaters';
     } else {
       return null;
@@ -112,8 +112,8 @@ class NameField extends StatelessWidget {
     );
   }
 
-  String validateName(String value) {
-    if (value.length < 2) {
+  String? validateName(String? value) {
+    if (value!.length < 2) {
       return 'Name must be more than 2 charaters';
     } else {
       return null;

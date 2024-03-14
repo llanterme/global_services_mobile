@@ -1,57 +1,58 @@
 import 'package:flutter/material.dart';
-
+import 'package:global_services_mobile/core/models/user.dart';
+import 'package:global_services_mobile/ui/views/home_view.dart';
+import 'package:global_services_mobile/ui/views/profile_list_view.dart';
+import 'package:global_services_mobile/ui/views/profile_view.dart';
 import '../../core/enums/viewstate.dart';
-import '../../core/models/user.dart';
 import '../../core/viewmodels/register_view_model.dart';
-import '../../style.dart';
+
 import 'base_view.dart';
 
 class LandingView extends StatelessWidget {
-  final User user;
+  int _currentIndex = 0;
 
-  LandingView({this.user});
+  final List<Widget> _tabs = [
+    HomeView(),
+    ProfileView(),
+    ProfileListView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return BaseView<RegisterViewModel>(
+        onModelReady: (model) async {},
         builder: (context, model, child) => Scaffold(
-            appBar: AppBar(
-                automaticallyImplyLeading: true,
-                centerTitle: true,
-                title: const Text(
-                  "Home",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 15.0,
-                      color: Colors.white),
-                )),
-            body: SingleChildScrollView(
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                  const SizedBox(height: 20),
-                  model.state == ViewState.Busy
-                      ? const CircularProgressIndicator()
-                      : Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(user == null ? "" : 'Welcome ${user.name}',
-                                  style: Styles.headerLarge),
-                              const SizedBox(height: 20),
-                              Container(
-                                child: CircleAvatar(
-                                  radius: 100.0,
-                                  backgroundImage: NetworkImage(
-                                    user.imageUrl,
-                                  ),
-                                  backgroundColor: Colors.transparent,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                ])))));
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _currentIndex,
+              onTap: (int index) {
+                model.setState(ViewState.Idle);
+                _currentIndex = index;
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.man_2_outlined),
+                  label: 'Profile',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.map),
+                  label: 'Favorites',
+                ),
+              ],
+            ),
+            // floatingActionButtonLocation:
+            //     FloatingActionButtonLocation.centerFloat,
+            // floatingActionButton: FloatingActionButton.large(
+            //   elevation: 12,
+            //   backgroundColor: const Color.fromRGBO(82, 170, 94, 1.0),
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, 'profile-list');
+            //   },
+            //   child: const Icon(Icons.star, color: Colors.white, size: 28),
+            // ),
+            body: _tabs[_currentIndex]));
   }
 }

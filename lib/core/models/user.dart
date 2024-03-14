@@ -1,30 +1,34 @@
+import 'package:global_services_mobile/core/enums/social_enum.dart';
+
 class User {
-  int userId;
-  String emailAddress;
-  String name;
-  String mobileNumber;
-  String imageUrl;
+  int? userId;
+  String? emailAddress;
+  String? name;
+  String? imageUrl;
+  dynamic socialNetwork;
 
   User(
       {this.userId,
+      this.socialNetwork,
       this.emailAddress,
       this.name,
-      this.mobileNumber,
       this.imageUrl});
 
-  User.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
+  User.fromJson(dynamic json) {
     emailAddress = json['emailAddress'];
+    socialNetwork = json['socialNetwork'];
+    emailAddress = json['emailAddress'];
+    imageUrl = json['imageUrl'];
     name = json['name'];
-    mobileNumber = json['mobileNumber'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['userId'] = userId;
-    data['emailAddress'] = emailAddress;
-    data['name'] = name;
-    data['mobileNumber'] = mobileNumber;
+    data['emailAddress'] = emailAddress!;
+    data['name'] = name!;
+    data['socialNetwork'] = socialNetwork;
+    data['imageUrl'] = imageUrl!;
+
     return data;
   }
 }

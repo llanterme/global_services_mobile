@@ -9,7 +9,7 @@ import '../network/api.dart';
 import 'base_view_model.dart';
 
 class RegisterViewModel extends BaseViewModel {
-  String errorMessage;
+  String? errorMessage;
   final Api _api = locator<Api>();
 
   Future<User> registerUser(User user) async {
@@ -19,10 +19,10 @@ class RegisterViewModel extends BaseViewModel {
       setState(ViewState.Idle);
       return newUser;
     } catch (e) {
-      var error = BaseResponse.fromJson(json.decode(e));
+      var error = BaseResponse.fromJson(json.decode(e.toString()));
       errorMessage = error.responseMessage;
       setState(ViewState.Idle);
-      return null;
+      return User();
     }
   }
 }

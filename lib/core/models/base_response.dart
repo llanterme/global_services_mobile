@@ -1,8 +1,8 @@
 class BaseResponse {
-  String responseMessage;
-  int responseCode;
+  String responseMessage = "";
+  int responseCode = 0;
 
-  BaseResponse({this.responseMessage, this.responseCode});
+  BaseResponse({required this.responseMessage, required this.responseCode});
 
   BaseResponse.fromJson(Map<String, dynamic> json) {
     responseMessage = json['responseMessage'];
@@ -10,7 +10,7 @@ class BaseResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['responseMessage'] = responseMessage;
     data['responseCode'] = responseCode;
 

@@ -1,23 +1,34 @@
 PODS:
-  - FBAEMKit (15.1.0):
-    - FBSDKCoreKit_Basics (= 15.1.0)
-  - FBSDKCoreKit (15.1.0):
-    - FBAEMKit (= 15.1.0)
-    - FBSDKCoreKit_Basics (= 15.1.0)
-  - FBSDKCoreKit_Basics (15.1.0)
-  - FBSDKLoginKit (15.1.0):
-    - FBSDKCoreKit (= 15.1.0)
+  - FBAEMKit (16.3.1):
+    - FBSDKCoreKit_Basics (= 16.3.1)
+  - FBSDKCoreKit (16.3.1):
+    - FBAEMKit (= 16.3.1)
+    - FBSDKCoreKit_Basics (= 16.3.1)
+  - FBSDKCoreKit_Basics (16.3.1)
+  - FBSDKLoginKit (16.3.1):
+    - FBSDKCoreKit (= 16.3.1)
   - Flutter (1.0.0)
-  - flutter_facebook_auth (5.0.4):
-    - FBSDKLoginKit (~> 15.1.0)
+  - flutter_facebook_auth (6.0.4):
+    - FBSDKLoginKit (~> 16.3.1)
     - Flutter
   - flutter_secure_storage (6.0.0):
+    - Flutter
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - the_apple_sign_in (1.0.0):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - the_apple_sign_in (from `.symlinks/plugins/the_apple_sign_in/ios`)
 
 SPEC REPOS:
   trunk:
@@ -33,15 +44,24 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  the_apple_sign_in:
+    :path: ".symlinks/plugins/the_apple_sign_in/ios"
 
 SPEC CHECKSUMS:
-  FBAEMKit: c7f82b5145d446bcbbcd50485c032689032fc6a2
-  FBSDKCoreKit: 7542746fc63a2a38dd6a865eeb54268341f37b83
-  FBSDKCoreKit_Basics: 92d6b26c0bed30ab09bbdd96dccaa26e6c9978d1
-  FBSDKLoginKit: 4e275d30cf90e92bdf3a7c82857a8642abf23037
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_facebook_auth: c69f4e643b1d9cc9063ec87c9411bd9ec268108f
+  FBAEMKit: 6c7b5eb77c96861bb59e040842c6e55bf39512ce
+  FBSDKCoreKit: 5e4dd478947ab1bcc887e8cfadeae0727af1a942
+  FBSDKCoreKit_Basics: cd7b5f5d1e8868c26706917919d058999ca672c3
+  FBSDKLoginKit: 572cca0bc6c90067ef197187697cb3b584310c52
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_facebook_auth: c8700ab1770f3d8e5e7456220e4f3bbcdb831454
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
+  the_apple_sign_in: 2e78c83cdb09eba07bb16dcc1f3bc12fcdc8263d
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 

@@ -4,32 +4,32 @@ import 'package:global_services_mobile/ui/utils/hex_color.dart';
 class Styles {
   static const LargeTextSize = 26.0;
   static const MediumTextSize = 20.0;
-  static const BodyTextSize = 16.0;
-  static const String FontNameDefault = 'Montserrat';
+  static const bodyMediumTextSize = 16.0;
+
+  static const String FontNameDefault = 'Proxima Nova';
+
   static const double LogoHeight = 120;
   static const double LogoWidth = 220;
 
   static const _textSizeLarge = 22.0;
-  static const _textSizeDefault = 16.0;
+  static const _textSizeDefault = 22.0;
   static const _textSizeSmall = 12.0;
   static const horizontalPaddingDefault = 12.0;
   static final Color _textColorStrong = _hexToColor('000000');
-  static final Color _textColorDefault = HexColor('#FFFFFF');
+  static final Color _textColorDefault = Colors.grey;
   static final Color _textColorFaint = _hexToColor('999999');
   static final Color textColorBright = _hexToColor('FFFFFF');
   static final Color accentColor = _hexToColor('FF0000');
-  static final String _fontNameDefault = 'Muli';
+  static const String _fontNameDefault = 'Muli';
 
   static final Color buttonColor = HexColor('#102849');
-  static final Color appBarColor = HexColor('#164373');
+  static final Color appBarColor = Color.fromARGB(255, 50, 51, 49);
   static final Color errorAlertColor = HexColor('#C20033');
-  static final Color bodyColor = HexColor('#164373');
+  static const Color bodyColor = Colors.black;
   static final Color dropDownColor = HexColor('#164373');
 
-  static final navBarTitle = TextStyle(
-    fontFamily: _fontNameDefault,
-    color: Colors.blue,
-  );
+  static final appBarTheme =
+      AppBarTheme(color: Styles.appBarColor, titleTextStyle: appBarTextTitle);
 
   static final appBarTextStyle = TextStyle(
     fontFamily: _fontNameDefault,
@@ -45,23 +45,30 @@ class Styles {
     color: HexColor('#102849'),
   );
 
-  static final titleTextStyle = TextStyle(
+  static final titleTextStyle = const TextStyle(
     fontFamily: FontNameDefault,
     fontWeight: FontWeight.w300,
     fontSize: LargeTextSize,
     color: Colors.black,
   );
 
-  static final body1TextStyle = TextStyle(
+  static const bodyMedium = TextStyle(
     fontFamily: FontNameDefault,
-    fontWeight: FontWeight.w300,
-    fontSize: BodyTextSize,
-    color: Colors.black,
+    fontWeight: FontWeight.normal,
+    fontSize: bodyMediumTextSize,
+    color: Color.fromARGB(255, 183, 179, 199),
+  );
+
+  static const appBarTextTitle = TextStyle(
+    fontFamily: FontNameDefault,
+    fontWeight: FontWeight.bold,
+    fontSize: bodyMediumTextSize,
+    color: Color.fromARGB(255, 183, 179, 199),
   );
 
   static final headerLarge = TextStyle(
     fontFamily: _fontNameDefault,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w800,
     fontSize: _textSizeDefault,
     color: _textColorDefault,
   );

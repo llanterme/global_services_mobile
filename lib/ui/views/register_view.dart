@@ -19,6 +19,7 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<RegisterViewModel>(
+      onModelReady: (model) => model.errorMessage,
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -45,7 +46,7 @@ class RegisterView extends StatelessWidget {
                       nameController: _nameController,
                     )),
               ),
-              model.state == ViewState.Busy
+              model!.state == ViewState.Busy
                   ? const CircularProgressIndicator()
                   : Container(
                       child: Column(
@@ -68,17 +69,19 @@ class RegisterView extends StatelessWidget {
                                       style: TextStyle(color: Colors.black),
                                     ),
                                     onPressed: () async {
-                                      if (_formKey.currentState.validate()) {
+                                      if (_formKey.currentState!.validate()) {
                                         var newUser =
                                             await model.registerUser(getUser());
 
                                         if (newUser != null) {
+                                          // ignore: use_build_context_synchronously
                                           Navigator.pushNamed(
-                                              context, 'landing',
+                                              context!, 'landing',
                                               arguments: newUser);
                                         } else {
+                                          // ignore: use_build_context_synchronously
                                           QuickAlert.show(
-                                            context: context,
+                                            context: context!,
                                             type: QuickAlertType.error,
                                             title: 'Oops...',
                                             text: model.errorMessage,
@@ -100,7 +103,6 @@ class RegisterView extends StatelessWidget {
   User getUser() {
     User user = User();
     user.emailAddress = _emailController.text;
-    user.mobileNumber = _mobileNumberController.text;
     user.name = _nameController.text;
 
     return user;

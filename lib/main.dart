@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Global Services',
       theme: _theme(),
-      initialRoute: 'chat',
+      initialRoute: 'login',
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRouter.generateRoute,
@@ -27,11 +27,13 @@ class MyApp extends StatelessWidget {
 
 ThemeData _theme() {
   return ThemeData(
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      appBarTheme: AppBarTheme(
-          textTheme: TextTheme(
-            headline6: Styles.appBarTextStyle,
-          ),
-          color: Styles.appBarColor),
-      scaffoldBackgroundColor: Styles.bodyColor);
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.purple,
+        brightness: Brightness.dark,
+      ),
+      textTheme: const TextTheme(
+        bodyMedium: Styles.bodyMedium,
+      ),
+      useMaterial3: true,
+      appBarTheme: Styles.appBarTheme);
 }

@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart' as http;
-
-import '../models/base_response.dart';
-import '../models/chat.dart';
-import '../models/chat_response.dart';
+import '../models/profile.dart';
 import '../models/user.dart';
 
 class Api {
-  static const serviceEndpoint = 'http://localhost:9022';
+  static const serviceEndpoint =
+      'http://payment-cluster-load-balancer-1798404675.eu-west-2.elb.amazonaws.com:8001';
 
   var client = http.Client();
   final ioClient = HttpClient();
@@ -21,32 +18,11 @@ class Api {
     client = http.IOClient(ioClient);
   }
 
-  Future<ChatResponse> getOpenApiAnswer(Chat chat) async {
-    Uri uri = Uri.parse("https://api.openai.com/v1/completions");
-
-    try {
-      var response = await client.post(uri,
-          headers: _buildOpenApiHeaders(), body: json.encode(chat));
-
-      if (response.statusCode == 200) {
-        print(json.decode(response.body));
-        return ChatResponse.fromJson(json.decode(response.body));
-      } else {
-        throw response.body;
-      }
-    } on SocketException catch (e) {
-      print(e);
-    } on Exception catch (e) {
-      print(e);
-    }
-  }
-
-  Future<User> registerUser(User user) async {
+  FutureOr<User> registerUser(User user) async {
     Uri uri = Uri.parse('$serviceEndpoint/register-user');
 
     try {
-      var response = await client.post(uri,
-          headers: _buildHeaders(), body: json.encode(user));
+      var response = await client.post(uri, body: json.encode(user));
 
       if (response.statusCode == 200) {
         return User.fromJson(json.decode(response.body));
@@ -54,39 +30,55 @@ class Api {
         throw (response.body);
       }
     } on SocketException catch (e) {
-      throw json.encode(_buildErrorResponse(e, "Connection Error"));
+      throw Exception('Connection Error: $e');
+    } on TimeoutException catch (e) {
+      throw Exception('Timeout Error: $e');
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
     }
   }
 
-  BaseResponse _buildErrorResponse(Exception e, String message) {
-    BaseResponse error = BaseResponse();
-    error.responseCode = -1;
-    error.responseMessage = message;
+  Future<Profile> getProfile(String id) async {
+    Uri uri = Uri.parse('$serviceEndpoint/profile/$id');
+    try {
+      var response = await client.get(uri);
 
-    return error;
+      if (response.statusCode == 200) {
+        var parsed = json.decode(response.body);
+        return Profile.fromJson(parsed);
+      } else {
+        throw Exception('Failed to load profile: ${response.statusCode}');
+      }
+    } on SocketException catch (e) {
+      throw Exception('Connection Error: $e');
+    } on TimeoutException catch (e) {
+      throw Exception('Timeout Error: $e');
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
   }
 
-  Map<String, String> _buildHeaders() {
-    String headerUsername = 'devutils';
-    String headerPassword = r'tyme$97ital';
-    String basicAuth =
-        'Basic ${base64Encode(utf8.encode('$headerUsername:$headerPassword'))}';
+  Future<List<Profile>> fetchProfiles() async {
+    Uri uri = Uri.parse('$serviceEndpoint/profiles');
+    var profileList = <Profile>[];
+    try {
+      var response = await client.get(uri);
 
-    var headers = {
-      'authorization': basicAuth,
-      "Accept": "application/json",
-      'Content-type': 'application/json',
-    };
-    return headers;
-  }
-
-  Map<String, String> _buildOpenApiHeaders() {
-    var headers = {
-      'authorization':
-          "Bearer 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",
-      "Accept": "application/json",
-      'Content-type': 'application/json',
-    };
-    return headers;
+      if (response.statusCode == 200) {
+        var parsed = json.decode(response.body) as List<dynamic>;
+        for (var option in parsed) {
+          profileList.add(Profile.fromJson(option));
+        }
+        return profileList;
+      } else {
+        throw (response.body);
+      }
+    } on SocketException catch (e) {
+      throw Exception('Connection Error: $e');
+    } on TimeoutException catch (e) {
+      throw Exception('Timeout Error: $e');
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
   }
 }
