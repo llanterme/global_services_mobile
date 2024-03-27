@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:global_services_mobile/ui/utils/hex_color.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Styles {
   static const LargeTextSize = 26.0;
@@ -113,4 +114,21 @@ class Styles {
   static Color _hexToColor(String code) {
     return Color(int.parse(code.substring(0, 6), radix: 16) + 0xFF000000);
   }
+
+  static final alertStyle = AlertStyle(
+    animationType: AnimationType.grow,
+    isCloseButton: false,
+    isOverlayTapDismiss: false,
+    descStyle: TextStyle(
+        fontWeight: FontWeight.normal, color: Colors.white, fontSize: 18),
+    animationDuration: Duration(milliseconds: 250),
+    backgroundColor: HexColor("#164373"),
+    alertBorder: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      side: BorderSide(
+        color: Colors.grey,
+      ),
+    ),
+    titleStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+  );
 }

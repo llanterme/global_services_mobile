@@ -1,28 +1,25 @@
-import 'dart:async';
-import 'dart:convert';
+// ignore_for_file: avoid_print
 
+import 'dart:async';
+import 'package:global_services_mobile/core/service/strava_service.dart';
+import 'package:strava_client/strava_client.dart';
 import '../../locator.dart';
-import '../enums/viewstate.dart';
-import '../models/base_response.dart';
-import '../models/user.dart';
-import '../network/api.dart';
 import 'base_view_model.dart';
 
 class RegisterViewModel extends BaseViewModel {
+  final StravaService _stravaService = locator<StravaService>();
   String? errorMessage;
-  final Api _api = locator<Api>();
 
-  Future<User> registerUser(User user) async {
-    try {
-      setState(ViewState.Busy);
-      var newUser = await _api.registerUser(user);
-      setState(ViewState.Idle);
-      return newUser;
-    } catch (e) {
-      var error = BaseResponse.fromJson(json.decode(e.toString()));
-      errorMessage = error.responseMessage;
-      setState(ViewState.Idle);
-      return User();
-    }
+  Future<TokenResponse> authStrava() async {
+    var token = await _stravaService.authenticate(
+      [
+        AuthenticationScope.profile_read_all,
+        AuthenticationScope.read_all,
+        AuthenticationScope.activity_read_all
+      ],
+      "stravaflutter://redirect",
+    );
+
+    return token;
   }
 }
