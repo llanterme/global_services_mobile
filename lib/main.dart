@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Global Services',
       theme: _theme(),
-      initialRoute: 'register',
+      initialRoute: 'landing',
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRouter.generateRoute,

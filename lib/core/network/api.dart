@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:global_services_mobile/core/models/activities_model.dart';
+import 'package:global_services_mobile/core/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart' as http;
-import '../models/profile.dart';
 
 class Api {
   static const serviceEndpoint =
-      'http://payment-cluster-load-balancer-1798404675.eu-west-2.elb.amazonaws.com:8001';
-
-  // static const serviceEndpoint = 'http://localhost:8001';
+      'https://1u4tmo572i.execute-api.eu-west-2.amazonaws.com/dev/';
 
   var client = http.Client();
   final ioClient = HttpClient();
@@ -19,17 +19,29 @@ class Api {
     client = http.IOClient(ioClient);
   }
 
-  FutureOr<Profile> registerProfile(Profile profile) async {
-    Uri uri = Uri.parse('$serviceEndpoint/profile');
-
+  Future<void> uploadImage(Uint8List bytes, String randomString,
+      String fileType, String localUser) async {
+    String pipeSeperator = "_";
     try {
-      var response = await client.post(uri,
-          body: json.encode(profile), headers: _buildHeaders());
+      final fileName =
+          '${localUser.trim()}$pipeSeperator$randomString.$fileType'; // Construct the file name
+
+      Uri uri = Uri.parse(
+          '$serviceEndpoint/sentiment-upload-bucket/${Uri.encodeComponent(fileName)}');
+
+      final response = await http.put(
+        uri,
+        body: bytes,
+        headers: {
+          'Content-Type': 'image/$fileType',
+          'x-api-key': 'mvtOF0C0QJ65CoOKhVrdcanmWHR5aQo96I9fxTwx',
+        },
+      );
 
       if (response.statusCode == 200) {
-        return Profile.fromJson(json.decode(response.body));
+        print('Image uploaded successfully');
       } else {
-        throw (response.body);
+        print('Failed to upload image: ${response.reasonPhrase}');
       }
     } on SocketException catch (e) {
       throw Exception('Connection Error: $e');
@@ -40,40 +52,30 @@ class Api {
     }
   }
 
-  Future<Profile> getProfile(String id) async {
-    Uri uri = Uri.parse('$serviceEndpoint/profile/$id');
+  Future<List<ActivitiesModel>> fetchActivities(String user) async {
+    final uri = Uri.parse('$serviceEndpoint/activities/$user');
+
     try {
-      var response = await client.get(uri);
+      final response = await http.get(
+        uri,
+        headers: {
+          'x-api-key': 'mvtOF0C0QJ65CoOKhVrdcanmWHR5aQo96I9fxTwx',
+        },
+      );
 
       if (response.statusCode == 200) {
-        var parsed = json.decode(response.body);
-        return Profile.fromJson(parsed);
-      } else {
-        throw Exception('Failed to load profile: ${response.statusCode}');
-      }
-    } on SocketException catch (e) {
-      throw Exception('Connection Error: $e');
-    } on TimeoutException catch (e) {
-      throw Exception('Timeout Error: $e');
-    } catch (e) {
-      throw Exception('Unexpected error: $e');
-    }
-  }
+        final List<dynamic> parsed = json.decode(response.body);
+        List<ActivitiesModel> activities =
+            parsed.map((option) => ActivitiesModel.fromJson(option)).toList();
 
-  Future<List<Profile>> fetchProfiles() async {
-    Uri uri = Uri.parse('$serviceEndpoint/profiles');
-    var profileList = <Profile>[];
-    try {
-      var response = await client.get(uri);
+        // Sort activities by date in descending order
+        activities.sort((a, b) =>
+            DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)));
 
-      if (response.statusCode == 200) {
-        var parsed = json.decode(response.body) as List<dynamic>;
-        for (var option in parsed) {
-          profileList.add(Profile.fromJson(option));
-        }
-        return profileList;
+        return activities;
       } else {
-        throw (response.body);
+        throw HttpException(
+            'Failed to load activities: ${response.statusCode}');
       }
     } on SocketException catch (e) {
       throw Exception('Connection Error: $e');
