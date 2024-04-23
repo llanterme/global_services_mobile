@@ -7,11 +7,12 @@ import 'package:global_services_mobile/ui/views/take_photo_view.dart';
 import '../../core/enums/viewstate.dart';
 
 import 'base_view.dart';
+import 'trend_graph_view.dart';
 
 class LandingView extends StatelessWidget {
   int _currentIndex = 0;
 
-  final List<Widget> _tabs = [ActivitiesView(), TakePhotoView()];
+  final List<Widget> _tabs = [ActivitiesView(), TakePhotoView(), TrendsView()];
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +27,16 @@ class LandingView extends StatelessWidget {
               },
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.map),
-                  label: 'Activities',
+                  icon: Icon(Icons.list_alt_outlined),
+                  label: 'history',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.photo_library_outlined),
-                  label: 'Photo',
+                  icon: Icon(Icons.photo_camera_back_outlined),
+                  label: 'snap',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.bar_chart_outlined),
+                  label: 'trends',
                 ),
               ],
             ),
