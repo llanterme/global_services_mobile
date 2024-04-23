@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:global_services_mobile/core/models/user_model.dart';
 import 'package:global_services_mobile/core/viewmodels/landing_view_model.dart';
 import 'package:global_services_mobile/ui/utils/utils.dart';
-import 'package:global_services_mobile/ui/views/athlete_activities.dart';
+import 'package:global_services_mobile/ui/views/activities_view.dart';
 import 'package:global_services_mobile/ui/views/take_photo_view.dart';
 import '../../core/enums/viewstate.dart';
 
